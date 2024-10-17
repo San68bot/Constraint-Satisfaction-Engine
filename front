@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Grades and Class Schedules</title>
+    <style>
+        /* General website styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a90e2;
+        }
+
+        /* Button-like grade div styling */
+        .grade {
+            background-color: #4a90e2;
+            color: #ffffff;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grade:hover {
+            background-color: #357abd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Class schedules hidden by default */
+        .schedule {
+            display: none;
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        /* Styling for individual class schedule tables */
+        .schedule table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+        }
+
+        .schedule th, .schedule td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .schedule th {
+            background-color: #4a90e2;
+            color: white;
+        }
+
+        .schedule td {
+            background-color: #f9f9f9;
+        }
+
+        .schedule a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+
+        .schedule a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function toggleSchedule(gradeId) {
+            var schedule = document.getElementById('schedule-' + gradeId);
+            if (schedule.style.display === 'block') {
+                schedule.style.display = 'none';
+            } else {
+                schedule.style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>School Grades</h1>
+
+        <!-- 12th Grade -->
+        <div class="grade" onclick="toggleSchedule(12)">
+            12th Grade
+            <div class="schedule" id="schedule-12">
+                <p>Class Schedule for 12th Grade</p>
+
+                <!-- Class A Schedule -->
+                <h3>Class A</h3>
+                <a target="_blank"></a>
+                <table>
+                    <tr><th>Subject</th><th>Time</th><th>Teacher</th></tr>
+                    <tr><td>Math</td><td>9:00 AM - 10:00 AM</td><td>Mr. Smith</td></tr>
+                    <tr><td>Physics</td><td>10:15 AM - 11:15 AM</td><td>Ms. Johnson</td></tr>
+                    <tr><td>English</td><td>11:30 AM - 12:30 PM</td><td>Mr. Lee</td></tr>
+                    <tr><td>Chemistry</td><td>1:00 PM - 2:00 PM</td><td>Ms. Davis</td></tr>
+                    <tr><td>Biology</td><td>2:15 PM - 3:15 PM</td><td>Mr. White</td></tr>
+                    <tr><td>History</td><td>3:30 PM - 4:30 PM</td><td>Ms. Green</td></tr>
+                </table>
+
+                <!-- Class B Schedule -->
+                <h3>Class B</h3>
+                <table>
+                    <tr><th>Subject</th><th>Time</th><th>Teacher</th></tr>
+                    <tr><td>Math</td><td>9:15 AM - 10:15 AM</td><td>Mr. Brown</td></tr>
+                    <tr><td>Physics</td><td>10:30 AM - 11:30 AM</td><td>Ms. Wilson</td></tr>
+                    <tr><td>English</td><td>11:45 AM - 12:45 PM</td><td>Mr. Adams</td></tr>
+                    <tr><td>Chemistry</td><td>1:15 PM - 2:15 PM</td><td>Ms. Carter</td></tr>
+                    <tr><td>Biology</td><td>2:30 PM - 3:30 PM</td><td>Mr. Harris</td></tr>
+                    <tr><td>History</td><td>3:45 PM - 4:45 PM</td><td>Ms. Thompson</td></tr>
+                </table>
+
+                <!-- Class C Schedule -->
+                <h3>Class C</h3>
+                <table>
+                    <tr><th>Subject</th><th>Time</th><th>Teacher</th></tr>
+                    <tr><td>Math</td><td>9:30 AM - 10:30 AM</td><td>Mr. Evans</td></tr>
+                    <tr><td>Physics</td><td>10:45 AM - 11:45 AM</td><td>Ms. Turner</td></tr>
+                    <tr><td>English</td><td>12:00 PM - 1:00 PM</td><td>Mr. Parker</td></tr>
+                    <tr><td>Chemistry</td><td>1:30 PM - 2:30 PM</td><td>Ms. Clark</td></tr>
+                    <tr><td>Biology</td><td>2:45 PM - 3:45 PM</td><td>Mr. Lewis</td></tr>
+                    <tr><td>History</td><td>4:00 PM - 5:00 PM</td><td>Ms. Hall</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 11th Grade -->
+        <div class="grade" onclick="toggleSchedule(11)">
+            11th Grade
+            <div class="schedule" id="schedule-11">
+                <p>Class Schedule for 11th Grade</p>
+
+                <!-- Class A, B, and C follow the same structure -->
+                <h3>Class A</h3>
+                <table>
+                    <tr><th>Subject</th><th>Time</th><th>Teacher</th></tr>
+                    <tr><td>Math</td><td>9:00 AM - 10:00 AM</td><td>Mr. Collins</td></tr>
+                    <!-- Continue for other subjects... -->
+                </table>
+                <!-- Repeat for Class B and Class C... -->
+            </div>
+        </div>
+
+        <!-- 10th Grade -->
+        <div class="grade" onclick="toggleSchedule(10)">
+            10th Grade
+            <div class="schedule" id="schedule-10">
+                <p>Class Schedule for 10th Grade</p>
+
+                <!-- Class A, B, and C follow the same structure -->
+                <h3>Class A</h3>
+                <table>
+                    <tr><th>Subject</th><th>Time</th><th>Teacher</th></tr>
+                    <tr><td>Math</td><td>9:00 AM - 10:00 AM</td><td>Mr. Roberts</td></tr>
+                    <!-- Continue for other subjects... -->
+                </table>
+                <!-- Repeat for Class B and Class C... -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
