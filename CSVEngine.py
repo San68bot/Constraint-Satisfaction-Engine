@@ -272,7 +272,7 @@ if solution:
 else:
     print("No solution found.")
 
-def substituteTeacher(tea, grade, section, timeslot, day):
+def substituteTeacher(teacher, grade, section, timeslot, day):
     allteachList = []
     for i in teachers.values():
         for y in i: # Sadhana is nice!
