@@ -273,18 +273,14 @@ else:
     print("No solution found.")
 
 def substituteTeacher(tea, grade, section, timeslot, day):
-    pass
-
-def priortyList(grade, section, subject, timeslot, day):
-    teachDict = {}
     allteachList = []
     for i in teachers.values():
         for y in i:
             if y not in allteachList:
                 allteachList.append(y)
-    for i in allteachList:
-        teachDict[i] = 0
-    for i in allteachList:
-        if i in teachers[grade]:
-            pass
+
+def priortyList(grade, section, subject, timeslot, day, allteachLists):
+    teachDict = {}
+    
+                
 
