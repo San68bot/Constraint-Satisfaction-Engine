@@ -282,7 +282,7 @@ def substituteTeacher(tea, grade, section, timeslot, day):
 def priortyList(grade, section, subject, timeslot, day, allteachLists):
     teachDict = {}
     for i in allteachLists:
-        
+        pass
     
                 
 
