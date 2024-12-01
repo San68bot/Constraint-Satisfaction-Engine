@@ -275,12 +275,14 @@ else:
 def substituteTeacher(tea, grade, section, timeslot, day):
     allteachList = []
     for i in teachers.values():
-        for y in i: # Sadhana is nice!
+        for y in i: 
             if y not in allteachList:
                 allteachList.append(y)
 
 def priortyList(grade, section, subject, timeslot, day, allteachLists):
     teachDict = {}
+    for i in allteachLists:
+        
     
                 
 
