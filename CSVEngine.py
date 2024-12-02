@@ -316,7 +316,15 @@ def substituteTeacher(teacher, grade, section, timeslot, day, subject):
         for y in i.teachers:
             if y not in allteachList and y != teacher:
                 allteachList.append(y)
-    
+    for i in range(1, len(grades)+1):
+        with open(f'Grade{i}_Schedule.csv', 'r') as file:
+            csv_reader = csv.reader(file)
+            next(csv_reader)
+            for row in csv_reader:
+                if numberAssignerDay(row[1]) == numberAssignerDay(day):
+                    if numberAssignerTime(row[3]) == numberAssignerTime(timeslot):
+                        if row[5] in allteachList:
+                            allteachList.remove(row[5])
     teachDict = priortyList(grade, section, subject, timeslot, day, allteachList)
     max_priority = -1
     subTeach = ''
@@ -383,7 +391,7 @@ def makeGradeList(grade):
 def checkSubject(subject, teacher):
     for i in grades:
         maping = i.teacher_subject_map
-        for y in maping.keys:
+        for y in maping.keys():
             if y == teacher:
                 if maping[y] == subject:
                     return True
