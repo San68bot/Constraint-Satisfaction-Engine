@@ -1,6 +1,7 @@
 """
 Innovation 4 Impact CSP Scheduling Algorithm for solving school scheduling challenges.
 """
+import csv
 
 # Option to export the schedule to text files or print to console
 _export = True  # Set to True to export the schedule to text files and False to print to console
@@ -262,6 +263,7 @@ if solution:
 
     for g in sorted(schedule.keys()):
         output_lines = [f"Grade {g} Weekly Schedule:\n"]
+        output_data = [["Grade", "Day", "Section", "Time Slot", "Subject", "Teacher"]]
         for day in day_schedule_map.keys():
             output_lines.append(f"{day}:\n")
             d = day_schedule_map[day]
@@ -269,19 +271,28 @@ if solution:
             for s in grade_sections:
                 output_lines.append(f"  Section {s}:\n")
                 for t in sorted(time_slots):
+                    time_range = time_slots[t]
                     if t in schedule[g][day][s]:
                         subject, teacher = schedule[g][day][s][t]
-                        time_range = time_slots[t]
                         output_lines.append(f"    {time_range}: {subject} (Teacher: {teacher})\n")
+                        output_data.append([g, day, s, time_range, subject, teacher])
                     else:
-                        time_range = time_slots[t]
                         output_lines.append(f"    {time_range}: Free Period\n")
+                        output_data.append([g, day, s, time_range, "Free Period", "N/A"])
             output_lines.append("\n")
         if _export:
-            filename = f"Grade{g}_Schedule.txt"
-            with open(filename, 'w') as file:
+            # Export to text file
+            filename_txt = f"Grade{g}_Schedule.txt"
+            with open(filename_txt, 'w') as file:
                 file.writelines(output_lines)
-            print(f"Schedule for Grade {g} has been exported to {filename}.")
+            print(f"Schedule for Grade {g} has been exported to {filename_txt}.")
+
+            # Export to CSV file
+            filename_csv = f"Grade{g}_Schedule.csv"
+            with open(filename_csv, mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(output_data)
+            print(f"Schedule for Grade {g} has been exported to {filename_csv}.")
         else:
             print("".join(output_lines))
 else:
