@@ -403,7 +403,7 @@ def checkContClass(teacher, timeslot, day):
             next(csv_reader)
             for row in csv_reader:
                 if numberAssignerDay(row[1]) == days:
-                    if (numberAssignerTime[row[3]] in checktime) and (row[5] == teacher):
+                    if (numberAssignerTime(row[3]) in checktime) and (row[5] == teacher):
                         return False
     return True
 
@@ -415,3 +415,5 @@ def numberAssignerTime(timeslot):
     for i in time_slots:
         if time_slots[i] == timeslot:
             return i
+substituteTeacher('T1', 1, 'A', '9:00am - 11:00am', 'Monday','English')
+#1,Monday,A,9:00am - 11:00am,English,T1
