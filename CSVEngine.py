@@ -3,7 +3,7 @@ Innovation 4 Impact CSP Scheduling Algorithm for solving school scheduling chall
 """
 
 # Option to export the schedule to text files or print to console
-_export = False  # Set to True to export the schedule to text files and False to print to console
+_export = True  # Set to True to export the schedule to text files and False to print to console
 
 time_slots = {
     1: '9:00am - 11:00am',
@@ -50,24 +50,24 @@ grades = [
             'T8': 'PE'
         }
     ),
-    # Grade(
-    #     grade_number=2,
-    #     sections=['A', 'B'],
-    #     subjects_day={
-    #         1: ['English', 'Math', 'Science', 'History'],
-    #         2: ['Art', 'Language', 'PE', 'Music']
-    #     },
-    #     teacher_subject_map={
-    #         'T9': 'English',
-    #         'T10': 'Math',
-    #         'T11': 'Science',
-    #         'T12': 'History',
-    #         'T13': 'Art',
-    #         'T14': 'Language',
-    #         'T15': 'PE',
-    #         'T16': 'Music'
-    #     }
-    # )
+    Grade(
+        grade_number=2,
+        sections=['A', 'B'],
+        subjects_day={
+            1: ['English', 'Math', 'Science', 'History'],
+            2: ['Art', 'Language', 'PE', 'Music']
+        },
+        teacher_subject_map={
+            'T9': 'English',
+            'T10': 'Math',
+            'T11': 'Science',
+            'T12': 'History',
+            'T13': 'Art',
+            'T14': 'Language',
+            'T15': 'PE',
+            'T16': 'Music'
+        }
+    )
 ]
 
 variables = []
