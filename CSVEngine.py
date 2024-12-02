@@ -309,12 +309,47 @@ else:
     for reason, count in conf_sum.items():
         print(f"- {reason} (Occurred {count} times)")
 
-def substituteTeacher(teacher, grade, section, timeslot, day):
+
+def substituteTeacher(teacher, grade, section, timeslot, day, subject):
     allteachList = []
     for i in grades:
         for y in i.teachers:
-            if y not in allteachList and y !=teacher:
+            if y not in allteachList and y != teacher:
                 allteachList.append(y)
+    
+    teachDict = priortyList(grade, section, subject, timeslot, day, allteachList)
+    max_priority = -1
+    subTeach = ''
+    for i in teachDict.keys():
+        if max_priority < teachDict[i]:
+            max_priority = teachDict[i]
+            subTeach = i
+
+    # Modify the Grade CSV file with the substitute teacher
+    csv_file = f'Grade{grade}_Schedule.csv'
+    updated_rows = []
+
+    with open(csv_file, 'r') as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader)  # Save the header row
+        updated_rows.append(header)
+        for row in csv_reader:
+            # Check if the row matches the specified section, timeslot, and day
+            if row[2] == section and row[3] == timeslot and row[1] == day:
+                # Update the teacher and subject
+                row[5] = subTeach
+                row[4] = subject
+            updated_rows.append(row)
+    
+    # Write the updated rows back to the CSV file
+    with open(csv_file, 'w', newline='') as file:
+        csv_writer = csv.writer(file)
+        csv_writer.writerows(updated_rows)
+
+    print(f"Substitute teacher {subTeach} assigned to Grade {grade}, Section {section}, Day {day}, Time Slot {timeslot} for Subject {subject}.")
+
+# Rest of the code remains unchanged
+
     
 
 def priortyList(grade, section, subject, timeslot, day, allteachLists):
