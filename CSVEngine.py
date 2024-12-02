@@ -28,7 +28,8 @@ class Grade:
         self.sections = sections
         self.subjects_day = subjects_day
         self.teacher_subject_map = teacher_subject_map
-        self.teachers = self.teacher_subject_map.values()
+        self.teachers = self.teacher_subject_map.keys()
+
 
 
 # grades with their specific sections, subjects, and teachers
@@ -310,15 +311,72 @@ else:
 
 def substituteTeacher(teacher, grade, section, timeslot, day):
     allteachList = []
-    for i in grade.teachers:
-        for y in i: 
-            if y not in allteachList:
+    for i in grades:
+        for y in i.teachers:
+            if y not in allteachList and y !=teacher:
                 allteachList.append(y)
+    
 
 def priortyList(grade, section, subject, timeslot, day, allteachLists):
     teachDict = {}
+    checkGrade = makeGradeList(grade)
     for i in allteachLists:
-        pass
-    
-                
+        teachDict[i] = 0
+        if i in checkGrade[section]:
+            teachDict[i]+=3
+        else:
+            if checkSubject(subject, i):
+                teachDict[i]+=2
+        if checkContClass(i,timeslot, day):
+            teachDict[i]+=1
+    return teachDict
+        
+def makeGradeList(grade):
+    dictGrade = {}
+    with open(f'Grade{grade}_Schedule.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+        next(csv_reader)  # Skip the header row
+        for row in csv_reader:
+            section = row[2]  # Section
+            teacher = row[5]  # Teacher
+            if section not in dictGrade:
+                dictGrade[section] = []
+            if teacher not in dictGrade[section]:
+                dictGrade[section].append(teacher)
+    return dictGrade
 
+def checkSubject(subject, teacher):
+    for i in grades:
+        maping = i.teacher_subject_map
+        for y in maping.keys:
+            if y == teacher:
+                if maping[y] == subject:
+                    return True
+    return False
+def checkContClass(teacher, timeslot, day):
+    timeslots = numberAssignerTime(timeslot)
+    days = numberAssignerDay(day)
+    if timeslots == 1:
+        checktime = [2]
+    elif timeslots == len(time_slots)-1:
+        checktime = [len(time_slots)-2]
+    else:
+        checktime = [timeslots-1,timeslots+1]
+    for i in range(1,len(grades)+1):
+        with open(f'Grade{i}_Schedule.csv', 'r') as file:
+            csv_reader = csv.reader(file)
+            next(csv_reader)
+            for row in csv_reader:
+                if numberAssignerDay(row[1]) == days:
+                    if (numberAssignerTime[row[3]] in checktime) and (row[5] == teacher):
+                        return False
+    return True
+
+
+def numberAssignerDay(day):
+    days = day_schedule_map[day]
+    return days
+def numberAssignerTime(timeslot):
+    for i in time_slots:
+        if time_slots[i] == timeslot:
+            return i
