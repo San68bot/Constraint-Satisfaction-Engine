@@ -326,7 +326,7 @@ def substituteTeacher(teacher, grade, section, timeslot, day, subject):
                         if row[5] in allteachList:
                             allteachList.remove(row[5])
     teachDict = priortyList(grade, section, subject, timeslot, day, allteachList)
-    max_priority = -1
+    max_priority = 0
     subTeach = ''
     for i in teachDict.keys():
         if max_priority < teachDict[i]:
