@@ -389,3 +389,129 @@ else:
     print("\nRemaining Hours for Each Teacher (No assignment made):")
     for teacher_obj in teacher_pool:
         print(f" - {teacher_obj.name}: {teacher_obj.max_hours} hours remaining")
+
+
+def substituteTeacher(teacher, grade, section, timeslot, day, subject):
+    allteachList = []
+    for t in teacher_pool:
+        if t.name != teacher and (grade, subject) in t.grade_subject_pairs:
+            allteachList.append(t.name)
+
+    for i in range(1, len(grades) + 1):
+        with open(f'Grade{i}_Schedule.csv', 'r') as file:
+            csv_reader = csv.reader(file)
+            next(csv_reader)
+            for row in csv_reader:
+                if numberAssignerDay(row[1]) == numberAssignerDay(day):
+                    if numberAssignerTime(row[3]) == numberAssignerTime(timeslot):
+                        if row[5] in allteachList:
+                            allteachList.remove(row[5])
+
+    teachDict = priortyList(grade, section, subject, timeslot, day, allteachList)
+    max_priority = 0
+    subTeach = ''
+    for i in teachDict.keys():
+        if max_priority < teachDict[i]:
+            max_priority = teachDict[i]
+            subTeach = i
+
+    # Modify the Grade CSV file with the substitute teacher
+    csv_file = f'Grade{grade}_Schedule.csv'
+    updated_rows = []
+
+    with open(csv_file, 'r') as file:
+        csv_reader = csv.reader(file)
+        header = next(csv_reader)  # Save the header row
+        updated_rows.append(header)
+        for row in csv_reader:
+            # Check if the row matches the specified section, timeslot, and day
+            if row[2] == section and row[3] == timeslot and row[1] == day:
+                # Update the teacher and subject
+                row[5] = subTeach
+                row[4] = subject
+            updated_rows.append(row)
+
+    # Write the updated rows back to the CSV file
+    with open(csv_file, 'w', newline='') as file:
+        csv_writer = csv.writer(file)
+        csv_writer.writerows(updated_rows)
+
+    print(
+        f"Substitute teacher {subTeach} assigned to Grade {grade}, Section {section}, Day {day}, Time Slot {timeslot} for Subject {subject}.")
+
+
+def priortyList(grade, section, subject, timeslot, day, allteachLists):
+    teachDict = {}
+    checkGrade = makeGradeList(grade)
+    for i in allteachLists:
+        teachDict[i] = 0
+        if i in checkGrade[section]:
+            teachDict[i] += 3
+        else:
+            if checkSubject(subject, i):
+                teachDict[i] += 2
+        if checkContClass(i, timeslot, day):
+            teachDict[i] += 1
+    return teachDict
+
+
+def makeGradeList(grade):
+    dictGrade = {}
+    with open(f'Grade{grade}_Schedule.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+        next(csv_reader)  # Skip the header row
+        for row in csv_reader:
+            section = row[2]  # Section
+            teacher = row[5]  # Teacher
+            if section not in dictGrade:
+                dictGrade[section] = []
+            if teacher not in dictGrade[section]:
+                dictGrade[section].append(teacher)
+    return dictGrade
+
+
+def checkSubject(subject, teacher_name):
+    teacher = get_teacher_by_name(teacher_name)
+
+    if not teacher:
+        return False
+
+    for grade, subj in teacher.grade_subject_pairs:
+        if subj == subject:
+            return True
+    return False
+
+
+def checkContClass(teacher, timeslot, day):
+    timeslots = numberAssignerTime(timeslot)
+    days = numberAssignerDay(day)
+    if timeslots == 1:
+        checktime = [2]
+    elif timeslots == len(time_slots) - 1:
+        checktime = [len(time_slots) - 2]
+    else:
+        checktime = [timeslots - 1, timeslots + 1]
+    for i in range(1, len(grades) + 1):
+        with open(f'Grade{i}_Schedule.csv', 'r') as file:
+            csv_reader = csv.reader(file)
+            next(csv_reader)
+            for row in csv_reader:
+                if numberAssignerDay(row[1]) == days:
+                    if (numberAssignerTime(row[3]) in checktime) and (row[5] == teacher):
+                        return False
+    return True
+
+
+def numberAssignerDay(day):
+    days = day_schedule_map[day]
+    return days
+
+
+def numberAssignerTime(timeslot):
+    for i in time_slots:
+        if time_slots[i] == timeslot:
+            return i
+
+
+substituteTeacher('T1', 1, 'A', '9:00am - 11:00am', 'Monday', 'English')
+# 1,Monday,A,9:00am - 11:00am,English,T1
