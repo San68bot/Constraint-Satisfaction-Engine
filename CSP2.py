@@ -1,6 +1,6 @@
 import csv
 
-_export = False
+_export = True
 
 _print_remaining_hours = True
 
@@ -390,12 +390,12 @@ else:
     for teacher_obj in teacher_pool:
         print(f" - {teacher_obj.name}: {teacher_obj.max_hours} hours remaining")
 
-
 def substituteTeacher(teacher, grade, section, timeslot, day, subject):
     allteachList = []
-    for t in teacher_pool:
-        if t.name != teacher and (grade, subject) in t.grade_subject_pairs:
-            allteachList.append(t.name)
+    teacherPool = teacherListMake()
+    for t in teacherPool.keys():
+        if t != teacher:
+            allteachList.append(t)
 
     for i in range(1, len(grades) + 1):
         with open(f'Grade{i}_Schedule.csv', 'r') as file:
@@ -406,7 +406,6 @@ def substituteTeacher(teacher, grade, section, timeslot, day, subject):
                     if numberAssignerTime(row[3]) == numberAssignerTime(timeslot):
                         if row[5] in allteachList:
                             allteachList.remove(row[5])
-
     teachDict = priortyList(grade, section, subject, timeslot, day, allteachList)
     max_priority = 0
     subTeach = ''
@@ -439,7 +438,6 @@ def substituteTeacher(teacher, grade, section, timeslot, day, subject):
     print(
         f"Substitute teacher {subTeach} assigned to Grade {grade}, Section {section}, Day {day}, Time Slot {timeslot} for Subject {subject}.")
 
-
 def priortyList(grade, section, subject, timeslot, day, allteachLists):
     teachDict = {}
     checkGrade = makeGradeList(grade)
@@ -453,8 +451,6 @@ def priortyList(grade, section, subject, timeslot, day, allteachLists):
         if checkContClass(i, timeslot, day):
             teachDict[i] += 1
     return teachDict
-
-
 def makeGradeList(grade):
     dictGrade = {}
     with open(f'Grade{grade}_Schedule.csv', 'r') as file:
@@ -467,21 +463,18 @@ def makeGradeList(grade):
                 dictGrade[section] = []
             if teacher not in dictGrade[section]:
                 dictGrade[section].append(teacher)
+    print(dictGrade)
     return dictGrade
-
-
 def checkSubject(subject, teacher_name):
-    teacher = get_teacher_by_name(teacher_name)
-
-    if not teacher:
+    teacherList = teacherListMake()
+    subjects = []
+    for i in teacherList.keys():
+        for y in teacherList[i]:
+            if y[2] not in subjects:
+                subjects.append(y[2])
+    if subject not in subjects:
         return False
-
-    for grade, subj in teacher.grade_subject_pairs:
-        if subj == subject:
-            return True
-    return False
-
-
+    return True
 def checkContClass(teacher, timeslot, day):
     timeslots = numberAssignerTime(timeslot)
     days = numberAssignerDay(day)
@@ -500,18 +493,34 @@ def checkContClass(teacher, timeslot, day):
                     if (numberAssignerTime(row[3]) in checktime) and (row[5] == teacher):
                         return False
     return True
-
-
 def numberAssignerDay(day):
     days = day_schedule_map[day]
     return days
-
-
 def numberAssignerTime(timeslot):
     for i in time_slots:
         if time_slots[i] == timeslot:
             return i
+def teacherListMake():
+    teacherPool = {}
+    for i in range(0,13):
+        try:
+            with open(f'Grade{i}_Schedule.csv', 'r') as file:
+                csv_reader = csv.reader(file)
+                next(csv_reader)
+                for row in csv_reader:
+                    section = row[2]  # Section
+                    teacher = row[5]
+                    grade = row[0]
+                    subject = row[4]
+                    if teacher not in teacherPool:
+                        teacherPool[teacher] = [[grade,section,subject]]
+                    else:
+                        if [grade,section,subject] not in teacherPool[teacher]:
+                            teacherPool[teacher].append([grade,section,subject])
+        except:
+            continue
+    return teacherPool
 
 
-substituteTeacher('T1', 1, 'A', '9:00am - 11:00am', 'Monday', 'English')
+substituteTeacher('T2', 1, 'A', '11:00am - 1:00pm', 'Monday', 'Math')
 # 1,Monday,A,9:00am - 11:00am,English,T1
