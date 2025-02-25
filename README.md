@@ -1,5 +1,5 @@
-# Constraint Satisfaction Engine 
-## Modeled for Educational Scheduling
+# Constraint Satisfaction Engine
+Modeled for Educational Scheduling
 
 [![GitHub License](https://img.shields.io/github/license/San68bot/Constraint-Satisfaction-Engine)](https://github.com/San68bot/Constraint-Satisfaction-Engine/blob/main/LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue)](https://www.python.org/)
