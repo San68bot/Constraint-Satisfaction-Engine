@@ -14,6 +14,10 @@ This project models school scheduling as a **Constraint Satisfaction Problem (CS
 
 **Core Code**: [`CSP_Engine.py`](https://github.com/San68bot/Constraint-Satisfaction-Engine/blob/main/CSP_Engine.py)
 
+**Constraint Satisfaction Workflow**:
+
+<img src="CSP_Sched.PNG" alt="Workflow" width="600"/>
+
 ---
 
 ## 🧠 Constraint Satisfaction in AI/ML
