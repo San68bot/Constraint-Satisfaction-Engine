@@ -337,12 +337,12 @@ if solution:
                         output_data.append([g, day, s, time_range, "Free Period", "N/A"])
             output_lines.append("\n")
         if _export:
-            filename_txt = f"Grade{g}_Schedule.txt"
+            filename_txt = f"out/Grade{g}_Schedule.txt"
             with open(filename_txt, 'w') as file:
                 file.writelines(output_lines)
             print(f"Schedule for Grade {g} has been exported to {filename_txt}.")
 
-            filename_csv = f"Grade{g}_Schedule.csv"
+            filename_csv = f"out/Grade{g}_Schedule.csv"
             with open(filename_csv, mode='w', newline='') as file:
                 writer = csv.writer(file)
                 writer.writerows(output_data)
@@ -398,7 +398,7 @@ def substituteTeacher(teacher, grade, section, timeslot, day, subject):
             allteachList.append(t)
 
     for i in range(1, len(grades) + 1):
-        with open(f'Grade{i}_Schedule.csv', 'r') as file:
+        with open(f'out/Grade{i}_Schedule.csv', 'r') as file:
             csv_reader = csv.reader(file)
             next(csv_reader)
             for row in csv_reader:
@@ -415,7 +415,7 @@ def substituteTeacher(teacher, grade, section, timeslot, day, subject):
             subTeach = i
 
     # Modify the Grade CSV file with the substitute teacher
-    csv_file = f'Grade{grade}_Schedule.csv'
+    csv_file = f'out/Grade{grade}_Schedule.csv'
     updated_rows = []
 
     with open(csv_file, 'r') as file:
@@ -453,7 +453,7 @@ def priortyList(grade, section, subject, timeslot, day, allteachLists):
     return teachDict
 def makeGradeList(grade):
     dictGrade = {}
-    with open(f'Grade{grade}_Schedule.csv', 'r') as file:
+    with open(f'out/Grade{grade}_Schedule.csv', 'r') as file:
         csv_reader = csv.reader(file)
         next(csv_reader)  # Skip the header row
         for row in csv_reader:
@@ -485,7 +485,7 @@ def checkContClass(teacher, timeslot, day):
     else:
         checktime = [timeslots - 1, timeslots + 1]
     for i in range(1, len(grades) + 1):
-        with open(f'Grade{i}_Schedule.csv', 'r') as file:
+        with open(f'out/Grade{i}_Schedule.csv', 'r') as file:
             csv_reader = csv.reader(file)
             next(csv_reader)
             for row in csv_reader:
@@ -504,7 +504,7 @@ def teacherListMake():
     teacherPool = {}
     for i in range(0,13):
         try:
-            with open(f'Grade{i}_Schedule.csv', 'r') as file:
+            with open(f'out/Grade{i}_Schedule.csv', 'r') as file:
                 csv_reader = csv.reader(file)
                 next(csv_reader)
                 for row in csv_reader:
