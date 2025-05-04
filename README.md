@@ -16,7 +16,7 @@ This project models school scheduling as a **Constraint Satisfaction Problem (CS
 
 **Constraint Satisfaction Workflow**:
 
-<img src="CSP_Sched.PNG" alt="Workflow" width="600"/>
+<img src="diagrams/CSP_Sched.PNG" alt="Workflow" width="600"/>
 
 ---
 
